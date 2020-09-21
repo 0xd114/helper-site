@@ -1,0 +1,45 @@
+<html>
+    <a href="/Decoder.html">decoder</a>
+    <label style="display: block; margin-bottom: 0.5em;">Enter SSTI array:</label>
+    <textarea rows="8" cols="48" id="input1" onchange="f()"></textarea>
+    <label style="display: block; margin-bottom: 0.5em;">Enter element:</label>
+    <textarea rows="1" cols="48" id="input2" oninput="f()"></textarea>
+    <label style="display: block; margin-bottom: 0.5em;">Output:</label>
+    <textarea rows="20" cols="48" id="output"></textarea>
+    <script>
+
+        function f(){
+            var x = document.getElementById("input1").value
+            var y = document.getElementById("input2").value
+
+            var regex = new RegExp(`<class '[a-z0-9\.]*`+`[a-z0-9\.]*'>`, "gi")
+            elemArr = x.match(regex)
+
+            var regex = new RegExp(`<class '[a-z0-9\.]*`+y+`[a-z0-9\.]*'>`, "gi")
+            var result = x.match(regex)
+            var res = ""
+
+            if (result == null) {
+                regex = new RegExp(y, "gi")
+                result = x.match(regex)
+            }
+
+            if (result == null) {
+                alert(`Not Found`)
+            } else {
+                var len = elemArr.length
+                var len2 = result.length
+                for (i = 0; i < len2; i++){
+                    for (j = 0; j < len; j++){
+                        if (result[i] == elemArr[j]){
+                            res += result[i] + ': ' +  j
+                            res += '\n'
+                            break
+                        }
+                    }
+                }
+                document.getElementById("output").value = res
+            }
+        }
+    </script>
+</html>
